@@ -1,6 +1,6 @@
 ## Astronout data analyses code (FAIR)
 
-This repository contains a helper software project the final code version to be used 
+This repository contains a helper software project with the final code version to be used 
 for the [FAIR research software course](https://github.com/carpentries-incubator/fair-research-software).
 
 This is the code we are aiming to finish the course with, 
