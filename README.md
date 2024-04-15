@@ -23,3 +23,6 @@ Please see the file [LICENSE.md](./LICENSE.md) file for further information abou
 
 The idea for this repository has been borrowed from the ["Astronaut analysis" workshop material](https://gitlab.com/hifis/hifis-workshops/make-your-code-ready-for-publication/astronaut-analysis) 
 by [Helmholtz Federated IT Services](https://gitlab.com/hifis).
+
+We used public data on astronauts and spacewalks available from [Wikidata].
+The code in this repository analyses this data by looking at time humans spent in space as well as the country the mission originated from.
