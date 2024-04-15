@@ -33,4 +33,4 @@ We used public data on astronauts and spacewalks available from [Wikidata](https
 #### Software Sustainability Institute and UKRN
 
 This work has been supported by the [UK's Software Sustainability Institute][ssi] via the [EPSRC, BBSRC, ESRC, NERC, AHRC, STFC and MRC grant EP/S021779/1](https://gow.epsrc.ukri.org/NGBOViewGrant.aspx?GrantRef=EP/S021779/1)
-and [UKRN](https://www.ukrn.org/).
+and [UK Reproducibility Network (UKRN)](https://www.ukrn.org/).
