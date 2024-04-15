@@ -9,7 +9,13 @@ we start the course with.
 
 ### Authors
 
-### LICENCE
+The main contributors to this repository are:
+
+- [Sarah Jaffa](https://github.com/sjaffa)
+- [Aleksandra Nenadic](https://github.com/anenadic)
+
+
+### License
 
 Please see the file [LICENSE.md](./LICENSE.md) file for further information about how the content is licensed.
 
