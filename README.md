@@ -11,7 +11,7 @@ we start the course with.
 
 ### LICENCE
 
-Please see the file [LICENSE](./LICENSE) file for further information about how the content is licensed.
+Please see the file [LICENSE.md](./LICENSE.md) file for further information about how the content is licensed.
 
 ### Acknowledgements
 
