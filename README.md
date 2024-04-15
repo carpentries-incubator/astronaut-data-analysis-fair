@@ -23,12 +23,12 @@ Please see the file [LICENSE.md](./LICENSE.md) file for further information abou
 
 ### Acknowledgements
 
+#### Data
+We used public data on astronauts and spacewalks available from [Wikidata](https://www.wikidata.org/wiki/Wikidata:Main_Page).
+
 #### HIFIS 
 The idea for this repository has been borrowed from the ["Astronaut analysis" workshop material](https://gitlab.com/hifis/hifis-workshops/make-your-code-ready-for-publication/astronaut-analysis) 
 by [Helmholtz Federated IT Services (HIFIS)](https://gitlab.com/hifis).
-
-#### Data
-We used public data on astronauts and spacewalks available from [Wikidata](https://www.wikidata.org/wiki/Wikidata:Main_Page).
 
 #### Software Sustainability Institute and UKRN
 
