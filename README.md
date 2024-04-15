@@ -21,5 +21,5 @@ Please see the file [LICENSE.md](./LICENSE.md) file for further information abou
 
 ### Acknowledgements
 
-The idea for this repository has been borrowed from the ["Astronaut analysis" workshop material](https://gitlab.com/hifis/hifis-workshops/make-your-code-ready-for-publication/astronaut-analysis
-) by [Helmholtz Federated IT Services](https://gitlab.com/hifis).
+The idea for this repository has been borrowed from the ["Astronaut analysis" workshop material](https://gitlab.com/hifis/hifis-workshops/make-your-code-ready-for-publication/astronaut-analysis) 
+by [Helmholtz Federated IT Services](https://gitlab.com/hifis).
