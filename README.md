@@ -7,6 +7,8 @@ This is the code we are aiming to finish the course with,
 containing various imptovements made on the ["not so good" software project](https://github.com/carpentries-incubator/astronout-data-analyses-bad) 
 we start the course with.
 
+The code analyses data on spacewalks by looking at time astronauts spent in space as well as the country the space mission originated from.
+
 ### Authors
 
 The main contributors to this repository are:
@@ -21,8 +23,9 @@ Please see the file [LICENSE.md](./LICENSE.md) file for further information abou
 
 ### Acknowledgements
 
+#### HIFIS 
 The idea for this repository has been borrowed from the ["Astronaut analysis" workshop material](https://gitlab.com/hifis/hifis-workshops/make-your-code-ready-for-publication/astronaut-analysis) 
-by [Helmholtz Federated IT Services](https://gitlab.com/hifis).
+by [Helmholtz Federated IT Services (HIFIS)](https://gitlab.com/hifis).
 
-We used public data on astronauts and spacewalks available from [Wikidata].
-The code in this repository analyses this data by looking at time humans spent in space as well as the country the mission originated from.
+#### Data
+We used public data on astronauts and spacewalks available from [Wikidata](https://www.wikidata.org/wiki/Wikidata:Main_Page).
