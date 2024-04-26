@@ -4,7 +4,7 @@ This repository contains a helper software project with the final code version t
 for the [FAIR research software course](https://github.com/carpentries-incubator/fair-research-software).
 
 This is the code we are aiming to finish the course with, 
-containing various imptovements made on the ["not so good" software project](https://github.com/carpentries-incubator/astronaut-data-analysis-not-so-good) 
+containing various improvements made on the ["not so good" software project](https://github.com/carpentries-incubator/astronaut-data-analysis-not-so-good) 
 we start the course with.
 
 The code analyses data on spacewalks by looking at time astronauts spent in space as well as the country the space mission originated from.
