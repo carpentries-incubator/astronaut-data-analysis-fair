@@ -14,6 +14,7 @@ Authors:
 import pandas as pd
 import matplotlib.pyplot as plt
 import sys
+import re
 
 
 def read_json_to_dataframe(input_file_):
@@ -55,6 +56,41 @@ def plot_cumulative_time_in_space(df_, graph_file_):
     plt.show()
 
 
+def calculate_crew_size(crew):
+    """Determine the size of the crew"""
+    if crew.split() == "":
+        return None
+    else:
+        return len(re.split(r'\|', crew))
+
+
+def add_crew_size_variable(df_):
+    """Add crew size variable to df"""
+    print('Adding crew size variable (crew_size) to dataset')
+    df_copy = df_.copy()
+    df_copy["crew_size"] = df_copy["crew"].apply(
+        calculate_crew_size
+    )
+    return df_copy
+
+
+def summarise_categorical(df_, varname_):
+    """Tabulate distribution of a categorical variable"""
+    print(f'Tabulating distribution of categorical variable {varname_}')
+
+    # Prepare statistical summary
+    count_variable = df_[[varname_]].copy()
+    count_summary = count_variable.value_counts()
+    percentage_summary = round(count_summary / count_variable.size, 2) * 100
+
+    # Combine results into a summary data frame
+    df_summary = pd.concat([count_summary, percentage_summary], axis=1)
+    df_summary.columns = ['count', 'percentage']
+    df_summary.sort_index(inplace=True)
+
+    return df_summary
+
+
 if __name__ == '__main__':
 
     if len(sys.argv) < 3:
@@ -70,8 +106,15 @@ if __name__ == '__main__':
 
     eva_data = read_json_to_dataframe(input_file)
 
-    write_dataframe_to_csv(eva_data, output_file)
+    eva_data_prepared = add_crew_size_variable(eva_data)
 
-    plot_cumulative_time_in_space(eva_data, graph_file)
+    write_dataframe_to_csv(eva_data_prepared, output_file)
+
+    table_crew_size = summarise_categorical(eva_data_prepared, "crew_size")
+
+    write_dataframe_to_csv(table_crew_size, "./table_crew_size.csv")
+
+    plot_cumulative_time_in_space(eva_data_prepared, graph_file)
 
     print("--END--")
+    
