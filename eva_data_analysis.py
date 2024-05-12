@@ -16,7 +16,7 @@ import pandera as pa
 import matplotlib.pyplot as plt
 import sys
 import re
-
+import json
 
 def read_json_to_dataframe(input_file_):
     """
@@ -29,14 +29,21 @@ def read_json_to_dataframe(input_file_):
         pd.DataFrame: The loaded dataframe.
     """
     print(f'Reading JSON file {input_file_}')
-    eva_df = pd.read_json(input_file_,
-                          convert_dates=['date'])
+    with open(input_file_, 'r') as f:
+        json_data = json.load(f)
+
+    eva_df = pd.json_normalize(json_data)
+
     return eva_df
 
 
 def clean_data(df_):
     """
-    Clean the data by removing any incomplete rows; sort by date (asc.)
+    Clean the input data
+
+    Removing any incomplete rows;
+    Set data types
+    Sort by date (asc.)
 
     Args:
         df_ (pd.DataFrame): The input dataframe.
@@ -45,6 +52,8 @@ def clean_data(df_):
         pd.DataFrame: The cleaned dataframe.
     """
     print('Cleaning input data')
+    df_['eva'] = df_['eva'].astype(float)
+    df_['date'] = pd.to_datetime(df_['date'])
     df_.dropna(axis=0, inplace=True)
     df_.sort_values('date', inplace=True)
     return df_
@@ -62,7 +71,38 @@ def write_dataframe_to_csv(df_, output_file_):
         None
     """
     print(f'Saving to CSV file {output_file_}')
-    df_.to_csv(output_file_)
+    df_.to_csv(output_file_, index=False)
+
+def text_to_duration(duration):
+    """
+    Convert a text format duration "HH:MM" to duration in hours
+
+    Args:
+        duration (str): The text format duration
+
+    Returns:
+        float: The duration in hours
+    """
+    hours, minutes = duration.split(":")
+    duration_hours = int(hours) + int(minutes)/60
+    return duration_hours
+
+
+def add_duration_hours_variable(df_):
+    """
+    Add duration in hours (duration_hours) variable to the dataset
+
+    Args:
+        df_ (pd.DataFrame): The input dataframe.
+
+    Returns:
+        pd.DataFrame: A copy of df_ with the new duration_hours variable added
+    """
+    df_copy = df_.copy()
+    df_copy["duration_hours"] = df_copy["duration"].apply(
+        text_to_duration
+    )
+    return df_copy
 
 
 def plot_cumulative_time_in_space(df_, graph_file_):
@@ -82,7 +122,7 @@ def plot_cumulative_time_in_space(df_, graph_file_):
         None
     """
     print(f'Plotting cumulative spacewalk duration and saving to {graph_file_}')
-    df_['duration_hours'] = df_['duration'].str.split(":").apply(lambda x: int(x[0]) + int(x[1])/60)
+    df_ = add_duration_hours_variable(df_)
     df_['cumulative_time'] = df_['duration_hours'].cumsum()
     plt.plot(df_.date, df_.cumulative_time, 'ko-')
     plt.xlabel('Year')
@@ -150,6 +190,8 @@ def summarise_categorical(df_, varname_):
     df_summary.columns = ['count', 'percentage']
     df_summary.sort_index(inplace=True)
 
+
+    df_summary = df_summary.reset_index()
     return df_summary
 
 
@@ -165,14 +207,14 @@ def validate_input_data(df_):
     """
     print('Validating input data against schema')
     schema = pa.DataFrameSchema({
-        'eva': pa.Column(float, nullable=True),
+        'eva': pa.Column(str, nullable=True),
         'country': pa.Column(str, nullable=True),
         'crew': pa.Column(str, nullable=True, checks=pa.Check(
             lambda s: s.apply(lambda x: x == "" or ";" in x),
             error='Must be text using semicolon (;) as a separator')
         ),
         'vehicle': pa.Column(str, nullable=True),
-        'date': pa.Column(pa.DateTime, nullable=True),
+        'date': pa.Column(str, nullable=True),
         'duration': pa.Column(str, nullable=True, checks=pa.Check(
             lambda x: (x == "") | x.str.match(r'^\d{1,2}:\d{2}$'),
             error='Must be in (H)H:MM format (without seconds)')
@@ -222,4 +264,3 @@ if __name__ == '__main__':
         plot_cumulative_time_in_space(eva_data_prepared, graph_file)
 
     print("--END--")
-    
