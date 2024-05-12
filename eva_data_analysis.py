@@ -33,6 +33,7 @@ def read_json_to_dataframe(input_file_):
                           convert_dates=['date'])
     return eva_df
 
+
 def clean_data(df_):
     """
     Clean the data by removing any incomplete rows; sort by date (asc.)
@@ -47,6 +48,7 @@ def clean_data(df_):
     df_.dropna(axis=0, inplace=True)
     df_.sort_values('date', inplace=True)
     return df_
+
 
 def write_dataframe_to_csv(df_, output_file_):
     """
@@ -103,7 +105,7 @@ def calculate_crew_size(crew):
     if crew.split() == []:
         return None
     else:
-        return len(re.split(r'\;', crew))-1
+        return len(re.split(r';', crew))-1
 
 
 def add_crew_size_variable(df_):
@@ -172,14 +174,14 @@ def validate_input_data(df_):
         'vehicle': pa.Column(str, nullable=True),
         'date': pa.Column(pa.DateTime, nullable=True),
         'duration': pa.Column(str, nullable=True, checks=pa.Check(
-            lambda x: x.str.match(r'^\d{1,2}:\d{2}$')==True,
+            lambda x: (x == "") | x.str.match(r'^\d{1,2}:\d{2}$'),
             error='Must be in (H)H:MM format (without seconds)')
         ),
         'purpose': pa.Column(str, nullable=True)
     })
 
     try:
-        schema.validate(df_)
+        schema.validate(df_, lazy=True)
         print('Data validation successful!')
         return True
     except pa.errors.SchemaError as e:
