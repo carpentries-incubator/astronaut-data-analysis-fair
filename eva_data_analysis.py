@@ -58,7 +58,7 @@ def plot_cumulative_time_in_space(df_, graph_file_):
 
 def calculate_crew_size(crew):
     """Determine the size of the crew"""
-    if crew.split() == "":
+    if crew.split() == []:
         return None
     else:
         return len(re.split(r'\|', crew))
