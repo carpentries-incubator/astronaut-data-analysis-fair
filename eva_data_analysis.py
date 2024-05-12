@@ -121,8 +121,8 @@ def validate_input_data(df_):
         return True
     except pa.errors.SchemaError as e:
         print("Data validation failed!:", e)
-        print("Exiting")
-        sys.exit(1)
+        print("Skipping further analysis...")
+        return False
 
 
 if __name__ == '__main__':
@@ -142,17 +142,19 @@ if __name__ == '__main__':
 
     data_is_valid = validate_input_data(eva_data)
 
-    eva_data_cleaned = clean_data(eva_data)
+    if data_is_valid:
+        
+        eva_data_cleaned = clean_data(eva_data)
 
-    eva_data_prepared = add_crew_size_variable(eva_data_cleaned)
+        eva_data_prepared = add_crew_size_variable(eva_data_cleaned)
 
-    write_dataframe_to_csv(eva_data_prepared, output_file)
+        write_dataframe_to_csv(eva_data_prepared, output_file)
 
-    table_crew_size = summarise_categorical(eva_data_prepared, "crew_size")
+        table_crew_size = summarise_categorical(eva_data_prepared, "crew_size")
 
-    write_dataframe_to_csv(table_crew_size, "./table_crew_size.csv")
+        write_dataframe_to_csv(table_crew_size, "./table_crew_size.csv")
 
-    plot_cumulative_time_in_space(eva_data_prepared, graph_file)
+        plot_cumulative_time_in_space(eva_data_prepared, graph_file)
 
     print("--END--")
     
