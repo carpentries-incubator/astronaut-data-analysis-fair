@@ -12,4 +12,4 @@ Data source: https://data.nasa.gov/Raw-Data/Extra-vehicular-Activity-EVA-US-and-
 Download in JSON format with:
 `curl https://data.nasa.gov/resource/eva.json --output eva-data.json`
 
-NB: a pipe separator was added to the crew field post-download for the purposes of this tutorial.
+NB: a semicolon separator has been inserted  after each  name in the crew field for the purposes of this tutorial.

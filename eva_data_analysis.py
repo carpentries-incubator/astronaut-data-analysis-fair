@@ -12,6 +12,7 @@ Authors:
 """
 
 import pandas as pd
+import pandera as pa
 import matplotlib.pyplot as plt
 import sys
 import re
@@ -20,16 +21,20 @@ import re
 def read_json_to_dataframe(input_file_):
     """
     Read the data from a JSON file into a Pandas dataframe
-    Clean the data by removing any incomplete rows and sort by date
     """
     print(f'Reading JSON file {input_file_}')
-    # Complains here
     eva_df = pd.read_json(input_file_,
                           convert_dates=['date'])
-    eva_df.dropna(axis=0, inplace=True)
-    eva_df.sort_values('date', inplace=True)
     return eva_df
 
+def clean_data(df_):
+    """
+    Clean the data by removing any incomplete rows and sort by date
+    """
+    print('Cleaning input data')
+    df_.dropna(axis=0, inplace=True)
+    df_.sort_values('date', inplace=True)
+    return df_
 
 def write_dataframe_to_csv(df_, output_file_):
     """
@@ -61,7 +66,7 @@ def calculate_crew_size(crew):
     if crew.split() == []:
         return None
     else:
-        return len(re.split(r'\|', crew))
+        return len(re.split(r'\;', crew))-1
 
 
 def add_crew_size_variable(df_):
@@ -91,6 +96,35 @@ def summarise_categorical(df_, varname_):
     return df_summary
 
 
+def validate_input_data(df_):
+    """Validate input data against a schema"""
+    print('Validating input data against schema')
+    schema = pa.DataFrameSchema({
+        'eva': pa.Column(float, nullable=True),
+        'country': pa.Column(str, nullable=True),
+        'crew': pa.Column(str, nullable=True, checks=pa.Check(
+            lambda s: s.apply(lambda x: x == "" or ";" in x),
+            error='Must be text using semicolon (;) as a separator')
+        ),
+        'vehicle': pa.Column(str, nullable=True),
+        'date': pa.Column(pa.DateTime, nullable=True),
+        'duration': pa.Column(str, nullable=True, checks=pa.Check(
+            lambda x: x.str.match(r'^\d{1,2}:\d{2}$')==True,
+            error='Must be in (H)H:MM format (without seconds)')
+        ),
+        'purpose': pa.Column(str, nullable=True)
+    })
+
+    try:
+        schema.validate(df_)
+        print('Data validation successful!')
+        return True
+    except pa.errors.SchemaError as e:
+        print("Data validation failed!:", e)
+        print("Exiting")
+        sys.exit(1)
+
+
 if __name__ == '__main__':
 
     if len(sys.argv) < 3:
@@ -106,7 +140,11 @@ if __name__ == '__main__':
 
     eva_data = read_json_to_dataframe(input_file)
 
-    eva_data_prepared = add_crew_size_variable(eva_data)
+    data_is_valid = validate_input_data(eva_data)
+
+    eva_data_cleaned = clean_data(eva_data)
+
+    eva_data_prepared = add_crew_size_variable(eva_data_cleaned)
 
     write_dataframe_to_csv(eva_data_prepared, output_file)
 
