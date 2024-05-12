@@ -57,7 +57,7 @@ def plot_cumulative_time_in_space(df_, graph_file_):
     plt.xlabel('Year')
     plt.ylabel('Total time spent in space to date (hours)')
     plt.tight_layout()
-    plt.savefig(graph_file)
+    plt.savefig(graph_file_)
     plt.show()
 
 
