@@ -20,7 +20,13 @@ import re
 
 def read_json_to_dataframe(input_file_):
     """
-    Read the data from a JSON file into a Pandas dataframe
+    Read the data from a JSON file into a Pandas dataframe.
+
+    Args:
+        input_file_ (str): The path to the JSON file.
+
+    Returns:
+        pd.DataFrame: The loaded dataframe.
     """
     print(f'Reading JSON file {input_file_}')
     eva_df = pd.read_json(input_file_,
@@ -29,7 +35,13 @@ def read_json_to_dataframe(input_file_):
 
 def clean_data(df_):
     """
-    Clean the data by removing any incomplete rows and sort by date
+    Clean the data by removing any incomplete rows; sort by date (asc.)
+
+    Args:
+        df_ (pd.DataFrame): The input dataframe.
+
+    Returns:
+        pd.DataFrame: The cleaned dataframe.
     """
     print('Cleaning input data')
     df_.dropna(axis=0, inplace=True)
@@ -38,7 +50,14 @@ def clean_data(df_):
 
 def write_dataframe_to_csv(df_, output_file_):
     """
-    Save dataframe to CSV file for later analysis
+    Write the dataframe to a CSV file.
+
+    Args:
+        df_ (pd.DataFrame): The input dataframe.
+        output_file_ (str): The path to the output CSV file.
+
+    Returns:
+        None
     """
     print(f'Saving to CSV file {output_file_}')
     df_.to_csv(output_file_)
@@ -46,9 +65,19 @@ def write_dataframe_to_csv(df_, output_file_):
 
 def plot_cumulative_time_in_space(df_, graph_file_):
     """
+    Plot the cumulative time spent in space over years
+
     Convert the duration column from strings to number of hours
     Calculate cumulative sum of durations
-    Plot cumulative time spent in space over years
+    Generate a plot of cumulative time spent in space over years and
+    save it to the specified location
+
+    Args:
+        df_ (pd.DataFrame): The input dataframe.
+        graph_file_ (str): The path to the output graph file.
+
+    Returns:
+        None
     """
     print(f'Plotting cumulative spacewalk duration and saving to {graph_file_}')
     df_['duration_hours'] = df_['duration'].str.split(":").apply(lambda x: int(x[0]) + int(x[1])/60)
@@ -62,7 +91,15 @@ def plot_cumulative_time_in_space(df_, graph_file_):
 
 
 def calculate_crew_size(crew):
-    """Determine the size of the crew"""
+    """
+    Calculate crew_size for a single crew entry
+
+    Args:
+        crew (str): The text entry in the crew column
+
+    Returns:
+        int: The crew size
+    """
     if crew.split() == []:
         return None
     else:
@@ -70,7 +107,15 @@ def calculate_crew_size(crew):
 
 
 def add_crew_size_variable(df_):
-    """Add crew size variable to df"""
+    """
+    Add crew size (crew_size) variable to the dataset
+
+    Args:
+        df_ (pd.DataFrame): The input dataframe.
+
+    Returns:
+        pd.DataFrame: A copy of df_ with the new crew_size variable added
+    """
     print('Adding crew size variable (crew_size) to dataset')
     df_copy = df_.copy()
     df_copy["crew_size"] = df_copy["crew"].apply(
@@ -80,7 +125,17 @@ def add_crew_size_variable(df_):
 
 
 def summarise_categorical(df_, varname_):
-    """Tabulate distribution of a categorical variable"""
+    """
+    Tabulate the distribution of a categorical variable
+
+    Args:
+        df_ (pd.DataFrame): The input dataframe.
+        varname_ (str): The name of the variable
+
+    Returns:
+        pd.DataFrame: dataframe containing the count and percentage of
+        each unique value of varname_
+    """
     print(f'Tabulating distribution of categorical variable {varname_}')
 
     # Prepare statistical summary
@@ -97,7 +152,15 @@ def summarise_categorical(df_, varname_):
 
 
 def validate_input_data(df_):
-    """Validate input data against a schema"""
+    """
+    Validate the input data against a schema.
+
+    Args:
+        df_ (pd.DataFrame): The input dataframe.
+
+    Returns:
+        bool: Whether the validation was successful.
+    """
     print('Validating input data against schema')
     schema = pa.DataFrameSchema({
         'eva': pa.Column(float, nullable=True),
@@ -143,7 +206,7 @@ if __name__ == '__main__':
     data_is_valid = validate_input_data(eva_data)
 
     if data_is_valid:
-        
+
         eva_data_cleaned = clean_data(eva_data)
 
         eva_data_prepared = add_crew_size_variable(eva_data_cleaned)
