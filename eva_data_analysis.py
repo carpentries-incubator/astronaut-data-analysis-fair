@@ -73,3 +73,5 @@ if __name__ == '__main__':
     write_dataframe_to_csv(eva_data, output_file)
 
     plot_cumulative_time_in_space(eva_data, graph_file)
+
+    print("--END--")
