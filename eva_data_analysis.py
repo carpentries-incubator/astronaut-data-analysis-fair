@@ -2,9 +2,10 @@
 Analyse the time spent in spacewalks (EVAs) by US and Russian astronauts
 from 1965 to 2013.
 
-Data source: https://data.nasa.gov/Raw-Data/Extra-vehicular-Activity-EVA-US-and-Russia/9kcy-zwvn/about_data
+Data source*: https://data.nasa.gov/Raw-Data/Extra-vehicular-Activity-EVA-US-and-Russia/9kcy-zwvn/about_data
 Download in JSON format with:
     `curl https://data.nasa.gov/resource/eva.json --output eva-data.json`
+* With post-download modifications (see README for further details)
 
 Authors:
     Sarah Jaffa
@@ -72,4 +73,3 @@ if __name__ == '__main__':
     write_dataframe_to_csv(eva_data, output_file)
 
     plot_cumulative_time_in_space(eva_data, graph_file)
-    
