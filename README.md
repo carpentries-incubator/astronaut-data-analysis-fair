@@ -14,6 +14,7 @@ The code analyses data on spacewalks by looking at time astronauts spent in spac
 The main contributors to this repository are:
 
 - [Sarah Jaffa](https://github.com/sjaffa)
+- [Kamilla Kopec-Harding](https://github.com/kkh451)
 - [Aleksandra Nenadic](https://github.com/anenadic)
 
 
