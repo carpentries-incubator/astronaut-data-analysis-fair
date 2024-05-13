@@ -52,7 +52,7 @@ def test_write_data_to_file(tmp_path):
         'purpose': ['Inadequate restraints ...', 'HHMU EVA cancelled ...', 'First U.S. EVA. ...']
     })
 
-    file_path = "test-eva-data.csv"
+    file_path = tmp_path / "test-eva-data.csv"
 
     write_dataframe_to_csv(data, file_path)
 
