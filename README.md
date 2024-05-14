@@ -25,7 +25,13 @@ Please see the file [LICENSE.md](./LICENSE.md) file for further information abou
 ### Acknowledgements
 
 #### Data
-We used public data on astronauts and spacewalks available from [Wikidata](https://www.wikidata.org/wiki/Wikidata:Main_Page).
+
+The data in this project was obtained by the course team from:
+
+Data source: https://data.nasa.gov/Raw-Data/Extra-vehicular-Activity-EVA-US-and-Russia/9kcy-zwvn/about_data
+Download in JSON format with: `curl https://data.nasa.gov/resource/eva.json --output eva-data.json`
+
+NB: a semicolon separator has been inserted  after each  name in the crew field for the purposes of this tutorial.
 
 #### HIFIS 
 The idea for this repository has been borrowed from the ["Astronaut analysis" workshop material](https://gitlab.com/hifis/hifis-workshops/make-your-code-ready-for-publication/astronaut-analysis) 
@@ -35,3 +41,4 @@ by [Helmholtz Federated IT Services (HIFIS)](https://gitlab.com/hifis).
 
 This work has been supported by the [UK's Software Sustainability Institute](https://software.ac.uk) via the [EPSRC, BBSRC, ESRC, NERC, AHRC, STFC and MRC grant EP/S021779/1](https://gow.epsrc.ukri.org/NGBOViewGrant.aspx?GrantRef=EP/S021779/1)
 and [UK Reproducibility Network (UKRN)](https://www.ukrn.org/).
+
