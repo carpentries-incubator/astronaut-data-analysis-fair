@@ -88,22 +88,30 @@ def test_clean_data():
     pdt.assert_frame_equal(df_actual, df_expected)
 
 
-@pytest.mark.parametrize(
-    "test_input, expected_result",
-    [
-        ("0:00", 0),
-        ("0:30", 0.5),
-        ("1:00", 1),
-        ("2:45", 2.75)
-    ]
-)
-def test_text_to_duration(test_input, expected_result):
+def test_text_to_duration():
     """
     Test that text_to_duration returns expected values
     for a set of typical ground truth examples
     """
+    test_input = "0:00"
+    expected_result = 0
     actual_result = text_to_duration(test_input)
     assert actual_result == expected_result
+
+    test_input = "0:30"
+    expected_result = 0.5
+    actual_result = text_to_duration(test_input)
+    assert actual_result == expected_result    
+
+    test_input = "1:00"
+    expected_result = 1
+    actual_result = text_to_duration(test_input)
+    assert actual_result == expected_result  
+
+    test_input = "2:45"
+    expected_result = 2.75
+    actual_result = text_to_duration(test_input)
+    assert actual_result == expected_result        
 
 
 def test_add_duration_hours_variable():
@@ -126,23 +134,30 @@ def test_add_duration_hours_variable():
     pdt.assert_frame_equal(actual_result, expected_result)
 
 
-@pytest.mark.parametrize(
-    "test_input, expected_result",
-    [
-        ("", None),
-        ("Richard Gordon;", 1),
-        ("Richard Gordon;Buzz Aldrin;", 2),
-        ("Richard Gordon;Buzz Aldrin;John Glenn;", 3),
-    ]
-)
-def test_calculate_crew_size(test_input, expected_result):
+def test_calculate_crew_size():
     """
     Test that calculate_crew_size returns expected values
     for a set of typical ground truth examples
     """
+    test_input = ""
+    expected_result = None
     actual_result = calculate_crew_size(test_input)
     assert actual_result == expected_result
 
+    test_input = "Richard Gordon;"
+    expected_result = 1
+    actual_result = calculate_crew_size(test_input)
+    assert actual_result == expected_result
+
+    test_input = "Richard Gordon;Buzz Aldrin;"
+    expected_result = 2
+    actual_result = calculate_crew_size(test_input)
+    assert actual_result == expected_result
+
+    test_input = "Richard Gordon;Buzz Aldrin;John Glenn;"
+    expected_result = 3
+    actual_result = calculate_crew_size(test_input)
+    assert actual_result == expected_result
 
 def test_add_crew_size_variable():
     """
