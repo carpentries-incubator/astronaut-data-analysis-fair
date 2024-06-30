@@ -160,7 +160,7 @@ def summarise_categorical(df_, varname_):
 
     # Prepare statistical summary
     count_variable = df_[[varname_]].copy()
-    count_summary = count_variable.value_counts()
+    count_summary = count_variable.value_counts(dropna=False)
     percentage_summary = round(count_summary / count_variable.size, 2) * 100
 
     # Combine results into a summary data frame
