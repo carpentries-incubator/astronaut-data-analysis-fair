@@ -9,8 +9,7 @@ from eva_data_analysis import (
     text_to_duration,
     add_duration_hours_variable,
     calculate_crew_size,
-    add_crew_size_variable,
-    summarise_categorical
+    add_crew_size_variable
 )
 
 
@@ -168,23 +167,3 @@ def test_add_crew_size_variable():
 
     pdt.assert_frame_equal(actual_result, expected_result)
 
-
-def test_summarise_categorical():
-    """
-    Test that summarise_categorical correctly tabulates
-    distribution of values (counts, percentages) for a simple ground truth
-    example
-    """
-    test_input = pd.DataFrame({
-        'country': ['USA', 'USA', 'USA', "Russia", "Russia"],
-    }, index=[0, 1, 2, 3, 4])
-
-    expected_result = pd.DataFrame({
-        'country': ["Russia", "USA"],
-        'count': [2, 3],
-        'percentage': [40.0, 60.0],
-    }, index=[0, 1])
-
-    actual_result = summarise_categorical(test_input, "country")
-
-    pdt.assert_frame_equal(actual_result, expected_result)

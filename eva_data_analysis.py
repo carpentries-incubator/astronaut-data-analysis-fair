@@ -143,34 +143,6 @@ def add_crew_size_variable(df_):
     return df_copy
 
 
-def summarise_categorical(df_, varname_):
-    """
-    Tabulate the distribution of a categorical variable
-
-    Args:
-        df_ (pd.DataFrame): The input dataframe.
-        varname_ (str): The name of the variable
-
-    Returns:
-        pd.DataFrame: dataframe containing the count and percentage of
-        each unique value of varname_
-    """
-    print(f'Tabulating distribution of categorical variable {varname_}')
-
-    # Prepare statistical summary
-    count_variable = df_[[varname_]].copy()
-    count_summary = count_variable.value_counts(dropna=False)
-    percentage_summary = round(count_summary / count_variable.size, 2) * 100
-
-    # Combine results into a summary data frame
-    df_summary = pd.concat([count_summary, percentage_summary], axis=1)
-    df_summary.columns = ['count', 'percentage']
-    df_summary.sort_index(inplace=True)
-
-
-    df_summary = df_summary.reset_index()
-    return df_summary
-
 
 if __name__ == '__main__':
 
@@ -190,10 +162,6 @@ if __name__ == '__main__':
     eva_data_prepared = add_crew_size_variable(eva_data)
 
     write_dataframe_to_csv(eva_data_prepared, output_file)
-
-    table_crew_size = summarise_categorical(eva_data_prepared, "crew_size")
-
-    write_dataframe_to_csv(table_crew_size, "./table_crew_size.csv")
 
     plot_cumulative_time_in_space(eva_data_prepared, graph_file)
 
