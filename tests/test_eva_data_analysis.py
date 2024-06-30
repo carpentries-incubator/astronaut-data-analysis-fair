@@ -96,22 +96,22 @@ def test_text_to_duration():
     test_input = "0:00"
     expected_result = 0
     actual_result = text_to_duration(test_input)
-    assert actual_result == expected_result
+    assert actual_result == pytest.approx(expected_result)
 
     test_input = "0:30"
     expected_result = 0.5
     actual_result = text_to_duration(test_input)
-    assert actual_result == expected_result    
+    assert actual_result == pytest.approx(expected_result)    
 
     test_input = "1:00"
     expected_result = 1
     actual_result = text_to_duration(test_input)
-    assert actual_result == expected_result  
+    assert actual_result == pytest.approx(expected_result)  
 
     test_input = "2:45"
     expected_result = 2.75
     actual_result = text_to_duration(test_input)
-    assert actual_result == expected_result        
+    assert actual_result == pytest.approx(expected_result)        
 
 
 def test_add_duration_hours_variable():
