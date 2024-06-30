@@ -17,9 +17,11 @@ import sys
 import re
 import json
 
+
 def read_json_to_dataframe(input_file_):
     """
     Read the data from a JSON file into a Pandas dataframe.
+    Clean the data by removing any incomplete rows and sort by date
 
     Args:
         input_file_ (str): The path to the JSON file.
@@ -28,34 +30,11 @@ def read_json_to_dataframe(input_file_):
         pd.DataFrame: The loaded dataframe.
     """
     print(f'Reading JSON file {input_file_}')
-    with open(input_file_, 'r') as f:
-        json_data = json.load(f)
-
-    eva_df = pd.json_normalize(json_data)
-
+    eva_df = pd.read_json(input_file_, convert_dates=['date'])
+    eva_df['eva'] = eva_df['eva'].astype(float)
+    eva_df.dropna(axis=0, inplace=True)
+    eva_df.sort_values('date', inplace=True)
     return eva_df
-
-
-def clean_data(df_):
-    """
-    Clean the input data
-
-    Removing any incomplete rows;
-    Set data types
-    Sort by date (asc.)
-
-    Args:
-        df_ (pd.DataFrame): The input dataframe.
-
-    Returns:
-        pd.DataFrame: The cleaned dataframe.
-    """
-    print('Cleaning input data')
-    df_['eva'] = df_['eva'].astype(float)
-    df_['date'] = pd.to_datetime(df_['date'])
-    df_.dropna(axis=0, inplace=True)
-    df_.sort_values('date', inplace=True)
-    return df_
 
 
 def write_dataframe_to_csv(df_, output_file_):
@@ -209,9 +188,7 @@ if __name__ == '__main__':
 
     eva_data = read_json_to_dataframe(input_file)
 
-    eva_data_cleaned = clean_data(eva_data)
-
-    eva_data_prepared = add_crew_size_variable(eva_data_cleaned)
+    eva_data_prepared = add_crew_size_variable(eva_data)
 
     write_dataframe_to_csv(eva_data_prepared, output_file)
 

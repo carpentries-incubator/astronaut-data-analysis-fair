@@ -17,21 +17,26 @@ from eva_data_analysis import (
 
 def test_read_json_to_dataframe():
     """
-    Test that read_json_to_dataframe loads json to dataframe
+    Test that read_json_to_dataframe loads json to dataframe and
+    implements the following data cleaning steps
+    drop_na, set types, convert string date (date) to date_time, sort by date
     """
     input_file = "tests/data/test_data.json"
 
     df_actual = read_json_to_dataframe(input_file)
 
     df_expected = pd.DataFrame({
-        'eva': ['3', '2', '1'],
-        'country': ['USA', 'USA', 'USA'],
-        'crew': ['Eugene Cernan;', 'David Scott;', 'Ed White;'],
-        'vehicle': ['Gemini IX-A', 'Gemini VIII', 'Gemini IV'],
-        'date': ['1966-06-05T00:00:00.000', None, '1965-06-03T00:00:00.000'],
-        'duration': ['2:07', '0:00', '0:36'],
-        'purpose': ['Inadequate restraints ...', 'HHMU EVA cancelled ...', 'First U.S. EVA. ...']
-    })
+        'eva': ['1', '3'],
+        'country': ['USA', 'USA'],
+        'crew': ['Ed White;', 'Eugene Cernan;'],
+        'vehicle': ['Gemini IV', 'Gemini IX-A'],
+        'date': ['1965-06-03T00:00:00.000', '1966-06-05T00:00:00.000'],
+        'duration': ['0:36', '2:07'],
+        'purpose': ['First U.S. EVA. ...', 'Inadequate restraints ...']
+    }, index=[2, 0])
+    
+    df_expected['eva'] = df_expected['eva'].astype(float)
+    df_expected['date'] = pd.to_datetime(df_expected['date'])
 
     # Open the file and verify its contents
     pdt.assert_frame_equal(df_actual, df_expected)
@@ -62,30 +67,6 @@ def test_write_data_to_file(tmp_path):
     # Open the file and verify its contents
     contents = pd.read_csv(file_path, dtype=str)
     pdt.assert_frame_equal(contents, data)
-
-
-def test_clean_data():
-    """
-    Test that clean_data implements the following data cleaning steps
-    drop_na, set types, convert string date (date) to date_time, sort by date
-    """
-    df_expected = pd.DataFrame({
-        'eva': ['1', '3'],
-        'country': ['USA', 'USA'],
-        'crew': ['Ed White;', 'Eugene Cernan;'],
-        'vehicle': ['Gemini IV', 'Gemini IX-A'],
-        'date': ['1965-06-03T00:00:00.000', '1966-06-05T00:00:00.000'],
-        'duration': ['0:36', '2:07'],
-        'purpose': ['First U.S. EVA. ...', 'Inadequate restraints ...']
-    }, index=[2, 0])
-
-    df_expected['eva'] = df_expected['eva'].astype(float)
-    df_expected['date'] = pd.to_datetime(df_expected['date'])
-
-    input_file = "tests/data/test_data.json"
-
-    df_actual = clean_data(read_json_to_dataframe(input_file))
-    pdt.assert_frame_equal(df_actual, df_expected)
 
 
 def test_text_to_duration():
