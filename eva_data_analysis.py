@@ -1,7 +1,7 @@
 # https://data.nasa.gov/resource/eva.json
-data_f = open('./eva-data.json', 'r')
-data_t = open('./eva-data.csv','w')
-g_file = './cumulative_eva_graph.png'
+data_f = open('/home/sarah/Projects/ssi-ukrn-fair-course/eva-data.json', 'r')
+data_t = open('/home/sarah/Projects/ssi-ukrn-fair-course/data.csv','w')
+g_file = 'myplot.png'
 
 fieldnames = ("EVA #", "Country", "Crew    ", "Vehicle", "Date", "Duration", "Purpose")
 
@@ -59,3 +59,5 @@ plt.ylabel('Total time spent in space to date (hours)')
 plt.tight_layout()
 plt.savefig(g_file)
 plt.show()
+
+#%%
