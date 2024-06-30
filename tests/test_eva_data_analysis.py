@@ -6,7 +6,6 @@ import pytest
 from eva_data_analysis import (
     write_dataframe_to_csv,
     read_json_to_dataframe,
-    clean_data,
     text_to_duration,
     add_duration_hours_variable,
     calculate_crew_size,
