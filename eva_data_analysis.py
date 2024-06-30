@@ -12,7 +12,6 @@ Authors:
 """
 
 import pandas as pd
-import pandera as pa
 import matplotlib.pyplot as plt
 import sys
 import re
@@ -195,43 +194,6 @@ def summarise_categorical(df_, varname_):
     return df_summary
 
 
-def validate_input_data(df_):
-    """
-    Validate the input data against a schema.
-
-    Args:
-        df_ (pd.DataFrame): The input dataframe.
-
-    Returns:
-        bool: Whether the validation was successful.
-    """
-    print('Validating input data against schema')
-    schema = pa.DataFrameSchema({
-        'eva': pa.Column(str, nullable=True),
-        'country': pa.Column(str, nullable=True),
-        'crew': pa.Column(str, nullable=True, checks=pa.Check(
-            lambda s: s.apply(lambda x: x == "" or ";" in x),
-            error='Must be text using semicolon (;) as a separator')
-        ),
-        'vehicle': pa.Column(str, nullable=True),
-        'date': pa.Column(str, nullable=True),
-        'duration': pa.Column(str, nullable=True, checks=pa.Check(
-            lambda x: (x == "") | x.str.match(r'^\d{1,2}:\d{2}$'),
-            error='Must be in (H)H:MM format (without seconds)')
-        ),
-        'purpose': pa.Column(str, nullable=True)
-    })
-
-    try:
-        schema.validate(df_, lazy=True)
-        print('Data validation successful!')
-        return True
-    except pa.errors.SchemaError as e:
-        print("Data validation failed!:", e)
-        print("Skipping further analysis...")
-        return False
-
-
 if __name__ == '__main__':
 
     if len(sys.argv) < 3:
@@ -247,20 +209,16 @@ if __name__ == '__main__':
 
     eva_data = read_json_to_dataframe(input_file)
 
-    data_is_valid = validate_input_data(eva_data)
+    eva_data_cleaned = clean_data(eva_data)
 
-    if data_is_valid:
+    eva_data_prepared = add_crew_size_variable(eva_data_cleaned)
 
-        eva_data_cleaned = clean_data(eva_data)
+    write_dataframe_to_csv(eva_data_prepared, output_file)
 
-        eva_data_prepared = add_crew_size_variable(eva_data_cleaned)
+    table_crew_size = summarise_categorical(eva_data_prepared, "crew_size")
 
-        write_dataframe_to_csv(eva_data_prepared, output_file)
+    write_dataframe_to_csv(table_crew_size, "./table_crew_size.csv")
 
-        table_crew_size = summarise_categorical(eva_data_prepared, "crew_size")
-
-        write_dataframe_to_csv(table_crew_size, "./table_crew_size.csv")
-
-        plot_cumulative_time_in_space(eva_data_prepared, graph_file)
+    plot_cumulative_time_in_space(eva_data_prepared, graph_file)
 
     print("--END--")
