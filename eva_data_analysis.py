@@ -14,7 +14,6 @@ Authors:
 import pandas as pd
 import matplotlib.pyplot as plt
 import sys
-import re
 
 
 def read_json_to_dataframe(input_file_):
@@ -109,41 +108,6 @@ def plot_cumulative_time_in_space(df_, graph_file_):
     plt.show()
 
 
-def calculate_crew_size(crew):
-    """
-    Calculate crew_size for a single crew entry
-
-    Args:
-        crew (str): The text entry in the crew column
-
-    Returns:
-        int: The crew size
-    """
-    if crew.split() == []:
-        return None
-    else:
-        return len(re.split(r';', crew))-1
-
-
-def add_crew_size_variable(df_):
-    """
-    Add crew size (crew_size) variable to the dataset
-
-    Args:
-        df_ (pd.DataFrame): The input dataframe.
-
-    Returns:
-        pd.DataFrame: A copy of df_ with the new crew_size variable added
-    """
-    print('Adding crew size variable (crew_size) to dataset')
-    df_copy = df_.copy()
-    df_copy["crew_size"] = df_copy["crew"].apply(
-        calculate_crew_size
-    )
-    return df_copy
-
-
-
 if __name__ == '__main__':
 
     if len(sys.argv) < 3:
@@ -159,10 +123,8 @@ if __name__ == '__main__':
 
     eva_data = read_json_to_dataframe(input_file)
 
-    eva_data_prepared = add_crew_size_variable(eva_data)
+    write_dataframe_to_csv(eva_data, output_file)
 
-    write_dataframe_to_csv(eva_data_prepared, output_file)
-
-    plot_cumulative_time_in_space(eva_data_prepared, graph_file)
+    plot_cumulative_time_in_space(eva_data, graph_file)
 
     print("--END--")

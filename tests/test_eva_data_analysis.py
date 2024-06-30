@@ -7,9 +7,7 @@ from eva_data_analysis import (
     write_dataframe_to_csv,
     read_json_to_dataframe,
     text_to_duration,
-    add_duration_hours_variable,
-    calculate_crew_size,
-    add_crew_size_variable
+    add_duration_hours_variable
 )
 
 
@@ -111,59 +109,3 @@ def test_add_duration_hours_variable():
     actual_result = add_duration_hours_variable(test_input)
 
     pdt.assert_frame_equal(actual_result, expected_result)
-
-
-def test_calculate_crew_size():
-    """
-    Test that calculate_crew_size returns expected values
-    for a set of typical ground truth examples
-    """
-    test_input = ""
-    expected_result = None
-    actual_result = calculate_crew_size(test_input)
-    assert actual_result == expected_result
-
-    test_input = "Richard Gordon;"
-    expected_result = 1
-    actual_result = calculate_crew_size(test_input)
-    assert actual_result == expected_result
-
-    test_input = "Richard Gordon;Buzz Aldrin;"
-    expected_result = 2
-    actual_result = calculate_crew_size(test_input)
-    assert actual_result == expected_result
-
-    test_input = "Richard Gordon;Buzz Aldrin;John Glenn;"
-    expected_result = 3
-    actual_result = calculate_crew_size(test_input)
-    assert actual_result == expected_result
-
-def test_add_crew_size_variable():
-    """
-    Test that add_crew_size_variable adds expected crew_count
-    column for simple ground truth example
-    """
-
-    test_input = pd.DataFrame({
-        'crew': [
-            "",
-            "Richard Gordon;",
-            "Richard Gordon;Buzz Aldrin;",
-            "Richard Gordon;Buzz Aldrin;John Glenn;"
-        ]
-    }, index=[0, 1, 2, 3])
-
-    expected_result = pd.DataFrame({
-        'crew': [
-            "",
-            "Richard Gordon;",
-            "Richard Gordon;Buzz Aldrin;",
-            "Richard Gordon;Buzz Aldrin;John Glenn;"
-        ],
-        'crew_size': [None, 1, 2, 3]
-    }, index=[0, 1, 2, 3])
-
-    actual_result = add_crew_size_variable(test_input)
-
-    pdt.assert_frame_equal(actual_result, expected_result)
-
