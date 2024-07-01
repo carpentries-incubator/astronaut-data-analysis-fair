@@ -6,7 +6,6 @@ import pytest
 from eva_data_analysis import (
     write_dataframe_to_csv,
     read_json_to_dataframe,
-    clean_data,
     text_to_duration,
     add_duration_hours_variable,
     calculate_crew_size,
@@ -17,21 +16,26 @@ from eva_data_analysis import (
 
 def test_read_json_to_dataframe():
     """
-    Test that read_json_to_dataframe loads json to dataframe
+    Test that read_json_to_dataframe loads json to dataframe and
+    implements the following data cleaning steps
+    drop_na, set types, convert string date (date) to date_time, sort by date
     """
     input_file = "tests/data/test_data.json"
 
     df_actual = read_json_to_dataframe(input_file)
 
     df_expected = pd.DataFrame({
-        'eva': ['3', '2', '1'],
-        'country': ['USA', 'USA', 'USA'],
-        'crew': ['Eugene Cernan;', 'David Scott;', 'Ed White;'],
-        'vehicle': ['Gemini IX-A', 'Gemini VIII', 'Gemini IV'],
-        'date': ['1966-06-05T00:00:00.000', None, '1965-06-03T00:00:00.000'],
-        'duration': ['2:07', '0:00', '0:36'],
-        'purpose': ['Inadequate restraints ...', 'HHMU EVA cancelled ...', 'First U.S. EVA. ...']
-    })
+        'eva': ['1', '3'],
+        'country': ['USA', 'USA'],
+        'crew': ['Ed White;', 'Eugene Cernan;'],
+        'vehicle': ['Gemini IV', 'Gemini IX-A'],
+        'date': ['1965-06-03T00:00:00.000', '1966-06-05T00:00:00.000'],
+        'duration': ['0:36', '2:07'],
+        'purpose': ['First U.S. EVA. ...', 'Inadequate restraints ...']
+    }, index=[2, 0])
+    
+    df_expected['eva'] = df_expected['eva'].astype(float)
+    df_expected['date'] = pd.to_datetime(df_expected['date'])
 
     # Open the file and verify its contents
     pdt.assert_frame_equal(df_actual, df_expected)
@@ -64,46 +68,30 @@ def test_write_data_to_file(tmp_path):
     pdt.assert_frame_equal(contents, data)
 
 
-def test_clean_data():
-    """
-    Test that clean_data implements the following data cleaning steps
-    drop_na, set types, convert string date (date) to date_time, sort by date
-    """
-    df_expected = pd.DataFrame({
-        'eva': ['1', '3'],
-        'country': ['USA', 'USA'],
-        'crew': ['Ed White;', 'Eugene Cernan;'],
-        'vehicle': ['Gemini IV', 'Gemini IX-A'],
-        'date': ['1965-06-03T00:00:00.000', '1966-06-05T00:00:00.000'],
-        'duration': ['0:36', '2:07'],
-        'purpose': ['First U.S. EVA. ...', 'Inadequate restraints ...']
-    }, index=[2, 0])
-
-    df_expected['eva'] = df_expected['eva'].astype(float)
-    df_expected['date'] = pd.to_datetime(df_expected['date'])
-
-    input_file = "tests/data/test_data.json"
-
-    df_actual = clean_data(read_json_to_dataframe(input_file))
-    pdt.assert_frame_equal(df_actual, df_expected)
-
-
-@pytest.mark.parametrize(
-    "test_input, expected_result",
-    [
-        ("0:00", 0),
-        ("0:30", 0.5),
-        ("1:00", 1),
-        ("2:45", 2.75)
-    ]
-)
-def test_text_to_duration(test_input, expected_result):
+def test_text_to_duration():
     """
     Test that text_to_duration returns expected values
     for a set of typical ground truth examples
     """
+    test_input = "0:00"
+    expected_result = 0
     actual_result = text_to_duration(test_input)
-    assert actual_result == expected_result
+    assert actual_result == pytest.approx(expected_result)
+
+    test_input = "0:30"
+    expected_result = 0.5
+    actual_result = text_to_duration(test_input)
+    assert actual_result == pytest.approx(expected_result)    
+
+    test_input = "1:00"
+    expected_result = 1
+    actual_result = text_to_duration(test_input)
+    assert actual_result == pytest.approx(expected_result)  
+
+    test_input = "2:45"
+    expected_result = 2.75
+    actual_result = text_to_duration(test_input)
+    assert actual_result == pytest.approx(expected_result)        
 
 
 def test_add_duration_hours_variable():
@@ -126,23 +114,30 @@ def test_add_duration_hours_variable():
     pdt.assert_frame_equal(actual_result, expected_result)
 
 
-@pytest.mark.parametrize(
-    "test_input, expected_result",
-    [
-        ("", None),
-        ("Richard Gordon;", 1),
-        ("Richard Gordon;Buzz Aldrin;", 2),
-        ("Richard Gordon;Buzz Aldrin;John Glenn;", 3),
-    ]
-)
-def test_calculate_crew_size(test_input, expected_result):
+def test_calculate_crew_size():
     """
     Test that calculate_crew_size returns expected values
     for a set of typical ground truth examples
     """
+    test_input = ""
+    expected_result = None
     actual_result = calculate_crew_size(test_input)
     assert actual_result == expected_result
 
+    test_input = "Richard Gordon;"
+    expected_result = 1
+    actual_result = calculate_crew_size(test_input)
+    assert actual_result == expected_result
+
+    test_input = "Richard Gordon;Buzz Aldrin;"
+    expected_result = 2
+    actual_result = calculate_crew_size(test_input)
+    assert actual_result == expected_result
+
+    test_input = "Richard Gordon;Buzz Aldrin;John Glenn;"
+    expected_result = 3
+    actual_result = calculate_crew_size(test_input)
+    assert actual_result == expected_result
 
 def test_add_crew_size_variable():
     """

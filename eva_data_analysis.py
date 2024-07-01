@@ -12,15 +12,15 @@ Authors:
 """
 
 import pandas as pd
-import pandera as pa
 import matplotlib.pyplot as plt
 import sys
 import re
-import json
+
 
 def read_json_to_dataframe(input_file_):
     """
     Read the data from a JSON file into a Pandas dataframe.
+    Clean the data by removing any incomplete rows and sort by date
 
     Args:
         input_file_ (str): The path to the JSON file.
@@ -29,34 +29,11 @@ def read_json_to_dataframe(input_file_):
         pd.DataFrame: The loaded dataframe.
     """
     print(f'Reading JSON file {input_file_}')
-    with open(input_file_, 'r') as f:
-        json_data = json.load(f)
-
-    eva_df = pd.json_normalize(json_data)
-
+    eva_df = pd.read_json(input_file_, convert_dates=['date'])
+    eva_df['eva'] = eva_df['eva'].astype(float)
+    eva_df.dropna(axis=0, inplace=True)
+    eva_df.sort_values('date', inplace=True)
     return eva_df
-
-
-def clean_data(df_):
-    """
-    Clean the input data
-
-    Removing any incomplete rows;
-    Set data types
-    Sort by date (asc.)
-
-    Args:
-        df_ (pd.DataFrame): The input dataframe.
-
-    Returns:
-        pd.DataFrame: The cleaned dataframe.
-    """
-    print('Cleaning input data')
-    df_['eva'] = df_['eva'].astype(float)
-    df_['date'] = pd.to_datetime(df_['date'])
-    df_.dropna(axis=0, inplace=True)
-    df_.sort_values('date', inplace=True)
-    return df_
 
 
 def write_dataframe_to_csv(df_, output_file_):
@@ -182,7 +159,7 @@ def summarise_categorical(df_, varname_):
 
     # Prepare statistical summary
     count_variable = df_[[varname_]].copy()
-    count_summary = count_variable.value_counts()
+    count_summary = count_variable.value_counts(dropna=False)
     percentage_summary = round(count_summary / count_variable.size, 2) * 100
 
     # Combine results into a summary data frame
@@ -193,43 +170,6 @@ def summarise_categorical(df_, varname_):
 
     df_summary = df_summary.reset_index()
     return df_summary
-
-
-def validate_input_data(df_):
-    """
-    Validate the input data against a schema.
-
-    Args:
-        df_ (pd.DataFrame): The input dataframe.
-
-    Returns:
-        bool: Whether the validation was successful.
-    """
-    print('Validating input data against schema')
-    schema = pa.DataFrameSchema({
-        'eva': pa.Column(str, nullable=True),
-        'country': pa.Column(str, nullable=True),
-        'crew': pa.Column(str, nullable=True, checks=pa.Check(
-            lambda s: s.apply(lambda x: x == "" or ";" in x),
-            error='Must be text using semicolon (;) as a separator')
-        ),
-        'vehicle': pa.Column(str, nullable=True),
-        'date': pa.Column(str, nullable=True),
-        'duration': pa.Column(str, nullable=True, checks=pa.Check(
-            lambda x: (x == "") | x.str.match(r'^\d{1,2}:\d{2}$'),
-            error='Must be in (H)H:MM format (without seconds)')
-        ),
-        'purpose': pa.Column(str, nullable=True)
-    })
-
-    try:
-        schema.validate(df_, lazy=True)
-        print('Data validation successful!')
-        return True
-    except pa.errors.SchemaError as e:
-        print("Data validation failed!:", e)
-        print("Skipping further analysis...")
-        return False
 
 
 if __name__ == '__main__':
@@ -247,20 +187,14 @@ if __name__ == '__main__':
 
     eva_data = read_json_to_dataframe(input_file)
 
-    data_is_valid = validate_input_data(eva_data)
+    eva_data_prepared = add_crew_size_variable(eva_data)
 
-    if data_is_valid:
+    write_dataframe_to_csv(eva_data_prepared, output_file)
 
-        eva_data_cleaned = clean_data(eva_data)
+    table_crew_size = summarise_categorical(eva_data_prepared, "crew_size")
 
-        eva_data_prepared = add_crew_size_variable(eva_data_cleaned)
+    write_dataframe_to_csv(table_crew_size, "./table_crew_size.csv")
 
-        write_dataframe_to_csv(eva_data_prepared, output_file)
-
-        table_crew_size = summarise_categorical(eva_data_prepared, "crew_size")
-
-        write_dataframe_to_csv(table_crew_size, "./table_crew_size.csv")
-
-        plot_cumulative_time_in_space(eva_data_prepared, graph_file)
+    plot_cumulative_time_in_space(eva_data_prepared, graph_file)
 
     print("--END--")
