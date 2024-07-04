@@ -9,6 +9,7 @@ Download in JSON format with:
 
 Authors:
     Sarah Jaffa
+    Kamilla Kopec-Harding
 """
 
 import pandas as pd
