@@ -21,7 +21,7 @@ The main contributors to this repository are:
 
 ### License
 
-Please see the file [LICENCE.md](LICENCE.md) file for further information about how the content is licensed.
+Please see the file [LICENSE](./LICENSE) file for further information about how the content is licensed.
 
 ### Acknowledgements
 
