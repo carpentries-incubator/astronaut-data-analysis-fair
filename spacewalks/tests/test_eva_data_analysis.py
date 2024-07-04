@@ -67,32 +67,33 @@ def test_write_data_to_file(tmp_path):
     contents = pd.read_csv(file_path, dtype=str)
     pdt.assert_frame_equal(contents, data)
 
+def test_text_to_duration_integer():
+    """
+    Test that text_to_duration returns expected ground truth values
+    for typical whole hour durations
+    """
+    actual_result =  text_to_duration("10:00")
+    expected_result = 10
+    assert actual_result == expected_result
 
-def test_text_to_duration():
+def test_text_to_duration_float():
+    """
+    Test that text_to_duration returns expected ground truth values
+    for typical durations with a non-zero minute component
+    """
+    actual_result = text_to_duration("10:20")
+    expected_result = 10.33333333
+    assert actual_result == pytest.approx(expected_result)
+
+def test_text_to_duration_edge():
     """
     Test that text_to_duration returns expected values
-    for a set of typical ground truth examples
+    for a set of edge-case examples
     """
     test_input = "0:00"
     expected_result = 0
     actual_result = text_to_duration(test_input)
     assert actual_result == pytest.approx(expected_result)
-
-    test_input = "0:30"
-    expected_result = 0.5
-    actual_result = text_to_duration(test_input)
-    assert actual_result == pytest.approx(expected_result)    
-
-    test_input = "1:00"
-    expected_result = 1
-    actual_result = text_to_duration(test_input)
-    assert actual_result == pytest.approx(expected_result)  
-
-    test_input = "2:45"
-    expected_result = 2.75
-    actual_result = text_to_duration(test_input)
-    assert actual_result == pytest.approx(expected_result)        
-
 
 def test_add_duration_hours_variable():
     """
@@ -113,31 +114,32 @@ def test_add_duration_hours_variable():
 
     pdt.assert_frame_equal(actual_result, expected_result)
 
-
 def test_calculate_crew_size():
     """
-    Test that calculate_crew_size returns expected values
-    for a set of typical ground truth examples
+    Test that calculate_crew_size returns expected ground truth values
+    for typical crew values
     """
-    test_input = ""
-    expected_result = None
-    actual_result = calculate_crew_size(test_input)
-    assert actual_result == expected_result
-
-    test_input = "Richard Gordon;"
+    actual_result = calculate_crew_size("Valentina Tereshkova;")
     expected_result = 1
-    actual_result = calculate_crew_size(test_input)
     assert actual_result == expected_result
 
-    test_input = "Richard Gordon;Buzz Aldrin;"
+    actual_result = calculate_crew_size("Judith Resnik; Sally Ride;")
     expected_result = 2
-    actual_result = calculate_crew_size(test_input)
     assert actual_result == expected_result
 
     test_input = "Richard Gordon;Buzz Aldrin;John Glenn;"
     expected_result = 3
     actual_result = calculate_crew_size(test_input)
     assert actual_result == expected_result
+
+def test_calculate_crew_size_edge_cases():
+    """
+    Test that calculate_crew_size returns expected ground truth values
+    for edge case where crew is an empty string
+    """
+    actual_result = calculate_crew_size("")
+    assert actual_result is None
+
 
 def test_add_crew_size_variable():
     """
@@ -188,3 +190,37 @@ def test_summarise_categorical():
     actual_result = summarise_categorical(test_input, "country")
 
     pdt.assert_frame_equal(actual_result, expected_result)
+
+
+def test_summarise_categorical_missvals():
+    """
+    Test that summarise_categorical correctly tabulates
+    distribution of values (counts, percentages) for a ground truth
+    example (edge case where column contains missing values)
+    """
+    test_input = pd.DataFrame({
+        'country': ['USA', 'USA', 'USA', "Russia", pd.NA],
+    }, index=[0, 1, 2, 3, 4])
+
+    expected_result = pd.DataFrame({
+        'country': ["Russia", "USA", np.nan],
+        'count': [1, 3, 1],
+        'percentage': [20.0, 60.0, 20.0],
+    }, index=[0, 1, 2])
+    actual_result = summarise_categorical(test_input, "country")
+
+    pdt.assert_frame_equal(actual_result, expected_result)
+    
+
+
+def test_summarise_categorical_invalid():
+    """
+    Test that summarise_categorical raises an
+    error when a non-existent column is input
+    """
+    test_input = pd.DataFrame({
+        'country': ['USA', 'USA', 'USA', "Russia", "Russia"],
+    }, index=[0, 1, 2, 3, 4])
+
+    with pytest.raises(KeyError):
+        summarise_categorical(test_input, "country-2")
