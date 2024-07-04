@@ -21,7 +21,7 @@ The main contributors to this repository are:
 
 ### License
 
-Please see the file [LICENSE.md](./LICENSE.md) file for further information about how the content is licensed.
+Please see the file [LICENSE.md](./spacewalks/LICENSE.md) file for further information about how the content is licensed.
 
 ### Acknowledgements
 
@@ -32,7 +32,7 @@ The data in this project was obtained by the course team from:
 Data source: https://data.nasa.gov/Raw-Data/Extra-vehicular-Activity-EVA-US-and-Russia/9kcy-zwvn/about_data
 Download in JSON format with: `curl https://data.nasa.gov/resource/eva.json --output eva-data.json`
 
-NB: a semicolon separator has been inserted  after each  name in the crew field for the purposes of this tutorial.
+NB: the original data has been modified for the purposes of this tutorial by inserting a semicolon separator after each name in the `crew` field.
 
 #### HIFIS 
 The idea for this repository has been borrowed from the ["Astronaut analysis" workshop material](https://gitlab.com/hifis/hifis-workshops/make-your-code-ready-for-publication/astronaut-analysis) 
