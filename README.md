@@ -1,4 +1,4 @@
-## Astronout data analyses code (FAIR)
+## Astronaut data analyses code (FAIR)
 
 This repository contains a helper software project (located in 
 the [spacewalks](./spacewalks) subfolder of this repository) with the final and tested code version to be used 
