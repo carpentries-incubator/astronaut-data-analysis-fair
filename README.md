@@ -1,14 +1,15 @@
 ## Astronaut data analyses code (FAIR)
 
 This repository contains a helper software project (located in 
-the [spacewalks](./spacewalks) subfolder of this repository) with the final and tested code version to be used 
-for the [FAIR research software course](https://github.com/carpentries-incubator/fair-research-software).
+the [spacewalks](./spacewalks) subfolder of this repository) with the final, improved and tested code version of the 
+[example software project software project](https://github.com/carpentries-incubator/astronaut-data-analysis-not-so-good) used for 
+teaching the [FAIR research software course](https://github.com/carpentries-incubator/fair-research-software).
 
-This is the code we are aiming to finish the course with, 
+This is the state of the software project the course aims to finish with, 
 containing various improvements made on the ["not so good" software project](https://github.com/carpentries-incubator/astronaut-data-analysis-not-so-good) 
-we start the course with.
+the course starts with.
 
-The code analyses data on spacewalks by looking at the time astronauts spent in space, crew sizes and the country space missions originated from.
+The code analyses the [NASA data on spacewalks](#data) by looking at the time astronauts spent in space, crew sizes and the country space missions originated from.
 
 ### Authors
 
