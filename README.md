@@ -29,10 +29,14 @@ Please see the file [LICENSE](./LICENSE) file for further information about how 
 
 The data used on in this project was obtained from NASA as follows.
 
-Data source: https://data.nasa.gov/Raw-Data/Extra-vehicular-Activity-EVA-US-and-Russia/9kcy-zwvn/about_data
-Download in JSON format with: `curl https://data.nasa.gov/resource/eva.json --output eva-data.json`
+Data source: https://data.nasa.gov/Raw-Data/Extra-vehicular-Activity-EVA-US-and-Russia/9kcy-zwvn/about_data.
 
-NB: the original data has been modified for the purposes of this tutorial by inserting a semicolon separator after each name in the `crew` field.
+Either export data from the above page using the `Export` button or download in JSON format from command line as: 
+
+`curl https://data.nasa.gov/resource/eva.json --output eva-data.json`
+
+**Note: the original data has been modified for the purposes of this tutorial by inserting a semicolon separator after each name in the `crew` field.**
+
 
 #### HIFIS 
 The idea for this repository has been borrowed from the ["Astronaut analysis" workshop material](https://gitlab.com/hifis/hifis-workshops/make-your-code-ready-for-publication/astronaut-analysis) 
