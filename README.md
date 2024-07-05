@@ -27,7 +27,7 @@ Please see the file [LICENSE](./LICENSE) file for further information about how 
 
 #### Data
 
-The data in this project was obtained by the course team from:
+The data used on in this project was obtained from NASA as follows.
 
 Data source: https://data.nasa.gov/Raw-Data/Extra-vehicular-Activity-EVA-US-and-Russia/9kcy-zwvn/about_data
 Download in JSON format with: `curl https://data.nasa.gov/resource/eva.json --output eva-data.json`
