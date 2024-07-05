@@ -9,8 +9,7 @@ This is the state of the software project the course aims to finish with,
 containing various improvements made on the ["not so good" software project](https://github.com/carpentries-incubator/astronaut-data-analysis-not-so-good) 
 the course starts with.
 
-The code analyses the [NASA data on spacewalks](#data) by looking at the time astronauts spent in space, crew sizes and the country space missions originated from.
-
+The code analyses the [NASA data on spacewalks](README.md#data) (see datails on the data below) by looking at the time astronauts spent in space, crew sizes and the country space missions originated from.
 ### Authors
 
 The main contributors to this repository are:
