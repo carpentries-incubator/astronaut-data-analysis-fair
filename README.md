@@ -2,11 +2,11 @@
 
 This repository contains a helper software project (located in 
 the [spacewalks](./spacewalks) subfolder of this repository) with the final, improved and tested code version of the 
-[example software project software project](https://github.com/carpentries-incubator/astronaut-data-analysis-not-so-good) used for 
+[example software project software project](https://github.com/carpentries-incubator/astronaut-data-analysis-not-so-fair) used for 
 teaching the [FAIR research software course](https://github.com/carpentries-incubator/fair-research-software).
 
 This is the state of the software project the course aims to finish with, 
-containing various improvements made on the ["not so good" software project](https://github.com/carpentries-incubator/astronaut-data-analysis-not-so-good) 
+containing various improvements made on the ["not so FAIR" software project](https://github.com/carpentries-incubator/astronaut-data-analysis-not-so-fair) 
 the course starts with.
 
 The code analyses the [NASA data on spacewalks](README.md#data) (see details on the data below) by looking at the time astronauts spent in space, crew sizes and the country space missions originated from.
