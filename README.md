@@ -39,7 +39,7 @@ Either export data from the above page using the `Export` button or download in 
 
 
 #### HIFIS 
-The idea for this repository has been borrowed from the ["Astronaut analysis" workshop material](https://gitlab.com/hifis/hifis-workshops/make-your-code-ready-for-publication/astronaut-analysis) 
+The idea for this software has been borrowed from the ["Astronaut analysis" workshop material](https://gitlab.com/hifis/hifis-workshops/make-your-code-ready-for-publication/astronaut-analysis) 
 by [Helmholtz Federated IT Services (HIFIS)](https://gitlab.com/hifis).
 
 #### Software Sustainability Institute and UKRN
