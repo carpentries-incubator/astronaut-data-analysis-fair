@@ -12,6 +12,7 @@ containing various improvements made on the ["not so FAIR" software project](htt
 the course starts with.
 
 The code analyses the [NASA data on spacewalks](README.md#data) (see details on the data below) by looking at the time astronauts spent in space, crew sizes and the country space missions originated from.
+
 ### Authors
 
 The main contributors to this repository are:
@@ -20,10 +21,13 @@ The main contributors to this repository are:
 - [Kamilla Kopec-Harding](https://github.com/kkh451)
 - [Aleksandra Nenadic](https://github.com/anenadic)
 
-
 ### License
 
 Please see the file [LICENSE](./LICENSE) file for further information about how the content is licensed.
+
+### CITATION
+
+Aleksandra Nenadic, Kamilla Kopec-Harding, & S Jaffa. (2024). carpentries-incubator/astronaut-data-analysis-fair: alpha-July-2024 (alpha-July-2024). Zenodo. https://doi.org/10.5281/zenodo.12698943
 
 ### Acknowledgements
 
