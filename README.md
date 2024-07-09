@@ -27,7 +27,7 @@ Please see the file [LICENSE](./LICENSE) file for further information about how 
 
 ### Citation
 
-Aleksandra Nenadic, Kamilla Kopec-Harding, & S Jaffa. (2024). carpentries-incubator/astronaut-data-analysis-fair: alpha-July-2024 (alpha-July-2024). Zenodo. https://doi.org/10.5281/zenodo.12698943
+*Aleksandra Nenadic, Kamilla Kopec-Harding, & S Jaffa. (2024). carpentries-incubator/astronaut-data-analysis-fair: alpha-July-2024 (alpha-July-2024). Zenodo. https://doi.org/10.5281/zenodo.12698943*
 
 ### Acknowledgements
 
