@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/776016405.svg)](https://zenodo.org/doi/10.5281/zenodo.12698942)
+
 ## Astronaut data analyses code (FAIR)
 
 This repository contains a helper software project (located in 
