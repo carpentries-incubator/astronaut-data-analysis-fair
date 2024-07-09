@@ -25,7 +25,7 @@ The main contributors to this repository are:
 
 Please see the file [LICENSE](./LICENSE) file for further information about how the content is licensed.
 
-### CITATION
+### Citation
 
 Aleksandra Nenadic, Kamilla Kopec-Harding, & S Jaffa. (2024). carpentries-incubator/astronaut-data-analysis-fair: alpha-July-2024 (alpha-July-2024). Zenodo. https://doi.org/10.5281/zenodo.12698943
 
