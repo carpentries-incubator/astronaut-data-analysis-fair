@@ -9,14 +9,16 @@ message: >-
 type: software
 authors:
   - given-names: Jaffa
-    name-particle: Sara
+    name-particle: Sarah
+  - given-names: Aleksandra
+    family-names: Nenadic
   - given-names: Kamilla
     family-names: Kopec-Harding
 repository-code: >-
   https://github.com/YOUR-REPOSITORY-URL/spacewalks.git
 abstract: >-
-  A python script to analyse NASA extravehicular activity
+  A Python script to analyse NASA extravehicular activity
   data
 keywords:
   - NASA
-  - Extravehicular Activity
+  - Extravehicular activity
